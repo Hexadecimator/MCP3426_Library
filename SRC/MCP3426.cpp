@@ -1,8 +1,6 @@
 #include <Wire.h>
 #include <Arduino.h>
-#include "MCP3426.h"
-
-bool reading_debug = false;
+#include "MCP3426_PING.h"
 
 uint8_t MCP3426_CONFIG      = 0x18;
 uint8_t MCP3426_I2C_ADDRESS = 0x69;
@@ -12,27 +10,13 @@ uint8_t MCP3426_I2C_ADDRESS = 0x69;
 // every time we start up
 //
 // this function should be called once in your setup() loop
-bool initializeMCP3426(bool debug=false) {
+bool initializeMCP3426() {
     bool ret = false;
 	Wire.beginTransmission(MCP3426_I2C_ADDRESS);
     Wire.write((byte)MCP3426_CONFIG);
     byte error = Wire.endTransmission();
-    if(error == 0) {
-        ret = true;
-		if(debug) {
-            Serial.println();
-            Serial.println(F("[SUCCESS] MCP3426 Configuration Updated."));
-            Serial.println();
-        } 
-    }
-    else {
-        ret = false;
-		if(debug) {
-		Serial.println();
-        Serial.print(F("[ERROR] Could not update configuration. Error code = "));
-        Serial.println(error);
-		}
-    }
+    if(error == 0) { ret = true; }
+    else { ret = false; }
 	return ret;
 }
 
@@ -123,7 +107,7 @@ double readMCP3426CurrentVoltage() {
     uint8_t  sign           = 0x00;
 	double   voltage        = -999; // can check for -999 returned to mean status = FAIL
 	
-    int16_t full_reading = readMCP3426CurrentBits();
+    full_reading = readMCP3426CurrentBits();
     
     sign = full_reading >> 15;
     if (sign == 0x1) { /* voltage returned will be -999 if we somehow measure a negative voltage on the ADC */ }
