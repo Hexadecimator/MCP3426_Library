@@ -1,5 +1,5 @@
 #include <Arduino.h>
-#include <Wire.h> //include Wire.h library
+#include <Wire.h> //include Wire.h library for SPI communication
 #include <MCP3426_PING.h>
 
 void delaySafeMillis(unsigned long timeToWait) {
@@ -8,7 +8,7 @@ void delaySafeMillis(unsigned long timeToWait) {
 }
 
 void setup() {
-  Wire.begin(); // Wire communication begin
+  Wire.begin(); // SPI communication begin
   
   Serial.begin(57600);
   while (!Serial); // Waiting for Serial Monitor
