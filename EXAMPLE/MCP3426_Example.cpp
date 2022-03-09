@@ -14,7 +14,7 @@ void setup() {
   while (!Serial); // Waiting for Serial Monitor
   
   Serial.println(F("[INFO] Welcome MCP3426 Communication Utility. Sending Config Packet..."));
-  if(!initializeMCP3426()) for(;;) // couldn't init MCP3426 so we're done here
+  if(!initializeMCP3426()) for(;;); // couldn't init MCP3426 so we're done here
   
   delaySafeMillis(100); // give MCP3426 some time to settle
 }
